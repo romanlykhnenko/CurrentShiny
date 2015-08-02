@@ -1,5 +1,9 @@
 # Valuation of call options in BS model
 
+
+# load libraries
+library(fOptions)
+
 # constructor for the class BSworld
 
 BSworld <- function(S0, K, T, r, sigma) {
