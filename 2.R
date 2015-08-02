@@ -6,11 +6,11 @@
 
 # fun1 : 
 
-library(fOptions)
-
-# Valuation of the call price for each value of the underlying
-Call    = GBSOption(TypeFlag = "c", S = St, X = K, Time = tau, r = r, b = 0, sigma = si)  
-Callp   = attr(Call, "price")
+# library(fOptions)
+# 
+# # Valuation of the call price for each value of the underlying
+# Call    = GBSOption(TypeFlag = "c", S = St, X = K, Time = tau, r = r, b = 0, sigma = si)  
+# Callp   = attr(Call, "price")
 
 ################################################################################
 # bs_call
@@ -106,7 +106,7 @@ bs_vega <- function(S0, K, T, r, sigma) {
 bs_call_imp_vol <- function(S0, K, T, r, C0, sigmaEst, it=100) {
 
   for( i in 1:it){
-    sigma_est <- sigmaEst - ((bs_call_price(S0, K, T, r, sigmaEst) - C0)
+    sigmaEst <- sigmaEst - ((bs_call_price(S0, K, T, r, sigmaEst) - C0)
                   / bs_vega(S0, K, T, r, sigmaEst))
   }
     
@@ -116,20 +116,56 @@ bs_call_imp_vol <- function(S0, K, T, r, C0, sigmaEst, it=100) {
 
 # performance ##################################################################
 
-S0 <- 100
-K <- 105
-T <- 1
-r <- 0.05
-sigmaEst <- 0.2
-sigma <- sigmaEst
-C0 <- 10
+# S0 <- 100
+# K <- 105
+# T <- 1
+# r <- 0.05
+sigmaEst <- 0.6
+# sigma <- sigmaEst
+# C0 <- 10
+# 
+# bs_call_price(S0, K, T, r, sigma)
+# 
+# bs_vega(S0, K, T, r, sigma)
+# 
+bs_call_imp_vol(S0, K, T, r, C0, sigmaEst, it=1000)
 
-bs_call_price(S0, K, T, r, sigma)
+GBSVolatility(price = 10, TypeFlag = "c", S = 100, 
+              X = K, Time = T, r = r, b = 0)
 
-bs_vega(S0, K, T, r, sigma)
 
-bs_call_imp_vol(S0, K, T, r, C0, sigmaEst, it=100)
+#
+install.packages("plot3D")
+library(plot3D)
 
+
+
+par(mar = c(2, 2, 2, 2))
+par(mfrow = c(1, 1))
+R <- 3
+r <- 2
+strike <- seq(80, 110,length.out=50)
+maturity <- seq(0.5, 2,length.out=50)
+callPrice <- seq(10, 40, length.out = 50)
+z = GBSVolatility(price = callPrice, TypeFlag = "c", S = 100, 
+                  X = strike, Time = maturity, r = r, b = 0)
+
+
+
+
+M <- mesh(strike, maturity)
+
+alpha <- M$x
+beta <- M$y
+
+
+surf3D(x = M$x,
+       y = M$y,
+       z = GBSVolatility(price = callPrice, TypeFlag = "c", S = 100, 
+                         X = strike, Time = maturity, r = r, b = 0) ,
+       colkey=FALSE,
+       bty="b2",
+       main="Half of a Torus")
 
 
 
