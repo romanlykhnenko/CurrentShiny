@@ -110,27 +110,27 @@ bs_call_imp_vol <- function(S0, K, T, r, C0, sigmaEst, it=100) {
                   / bs_vega(S0, K, T, r, sigmaEst))
   }
     
-  return(sigma_est)
+  return(sigmaEst)
 }
 
 
 # performance ##################################################################
 
-# S0 <- 100
-# K <- 105
-# T <- 1
-# r <- 0.05
-sigmaEst <- 0.6
+S0 <- 100
+K <- 105
+T <- 1
+r <- 0.05
+sigmaEst <- 0.23
 # sigma <- sigmaEst
-# C0 <- 10
+ C0 <- 10
 # 
 # bs_call_price(S0, K, T, r, sigma)
 # 
 # bs_vega(S0, K, T, r, sigma)
 # 
-bs_call_imp_vol(S0, K, T, r, C0, sigmaEst, it=1000)
+bs_call_imp_vol(S0, K, T, r, sigmaEst, C0)
 
-GBSVolatility(price = 10, TypeFlag = "c", S = 100, 
+GBSVolatility(price = C0, TypeFlag = "c", S = S0, 
               X = K, Time = T, r = r, b = 0)
 
 
