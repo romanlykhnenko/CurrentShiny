@@ -4,7 +4,7 @@
 # load libraries
 library(fOptions)
 
-# constructor for the class BSworld
+# constructor for the class BSworld ###########################################
 
 BSworld <- function(S0, K, T, r, sigma) {
   
@@ -31,12 +31,10 @@ BSworld <- function(S0, K, T, r, sigma) {
   
 }
 
-# create instance of the class BSworld
-
-obj1 <- BSworld(100,105, 1, 0.05, 0.02)
 
 
-# method 1
+
+# method 1: BScallPrice
 
 # reserve the name of the function, and use UseMethod command to tell R to 
 # search for the correct function
@@ -70,7 +68,7 @@ BScallPrice.BSworld <- function(instance.of.BSworld) {
 # BScallPrice(2)
 
 
-# method 2
+# method 2: BSvega
 
 
 # reserve the name of the function, and use UseMethod command to tell R to 
@@ -102,7 +100,7 @@ BSvega.BSworld <- function(instance.of.BSworld) {
 # BSvega(obj1)
 
 
-# method3
+# method3: BScallImpVol.BSworld
 
 # reserve the name of the function, and use UseMethod command to tell R to 
 # search for the correct function
@@ -130,4 +128,6 @@ BScallImpVol.BSworld <- function(instance.of.BSworld) {
 
 # BScallImpVol(obj1)
 
+# create instance of the class BSworld
 
+obj1 <- BSworld(100,105, 1, 0.05, 0.02)
