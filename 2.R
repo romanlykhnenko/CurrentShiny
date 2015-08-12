@@ -144,11 +144,12 @@ par(mar = c(2, 2, 2, 2))
 par(mfrow = c(1, 1))
 R <- 3
 r <- 2
-strike <- seq(80, 110,length.out=50)
+strike <- seq(100, 110,length.out=50)
 maturity <- seq(0.5, 2,length.out=50)
-callPrice <- seq(10, 40, length.out = 50)
+callPrice <- seq(30, 40, length.out = 50)
+r = 0.05
 z = GBSVolatility(price = callPrice, TypeFlag = "c", S = 100, 
-                  X = strike, Time = maturity, r = r, b = 0)
+                  X = strike, Time = maturity, r = r, b = r)
 
 
 
@@ -168,7 +169,27 @@ surf3D(x = M$x,
        main="Half of a Torus")
 
 
+# binomial trees
 
+CRRBinomialTreeOption(TypeFlag = "ce", S = 900, X = 950,
+                       Time = 1/4, r = 0.02, b = 0.02, sigma = 0.22, n = 3)@price
+
+CRRTree <- BinomialTreeOption(TypeFlag = "ce", S = 900, X = 950,
+                              Time = 1/4, r = 0.02, b = 0.02, sigma = 0.22, n = 3)
+
+BinomialTreePlot(CRRTree, dy = 1, xlab = "Time steps",
+                   ylab = "Number of up steps", xlim = c(0,4))
+
+title(main = "Call Option Tree")
+
+# compare BS price and BinTrees price
+
+# page 93
+
+# greeks
+# for straddle and other strategies
+
+# impied volatility smile
 
 
 

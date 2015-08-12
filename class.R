@@ -130,4 +130,4 @@ BScallImpVol.BSworld <- function(instance.of.BSworld) {
 
 # create instance of the class BSworld
 
-obj1 <- BSworld(100,105, 1, 0.05, 0.02)
+# obj1 <- BSworld(100,105, 1, 0.05, 0.02)
