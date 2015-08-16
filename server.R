@@ -7,8 +7,9 @@ source("class.R")
 
 shinyServer(function(input, output){
   
-  output$BScallprise <- renderPrint({ BScallPrice(BSworld(input$stock,input$strike, input$maturity,
-                                                          input$rate, input$vola))  })
+  output$BSprice <- renderPrint({ BSPrice(BSworld(input$stock, input$strike,
+                                                  input$maturity, input$rate, input$vola,
+                                                  input$type))  })
   
   output$plotBM <- renderPlot({ 
     BS_price(input$strike)

@@ -4,11 +4,14 @@ library(shiny)
 
 shinyUI(fluidPage(
   
-  titlePanel("Select parameters of your option and get a Black-Scholes price"),
+  titlePanel("Part 1: option calculator"),
   
   sidebarLayout(
     
     sidebarPanel(
+      
+      selectInput("type", label = h3("Select type of the option"),
+                  choices = list("Call option" = "call", "Put option" = "put")),
       
       sliderInput("stock","Select stock price", 50, 150, value = 100),
       
@@ -23,11 +26,11 @@ shinyUI(fluidPage(
     ),
     
     mainPanel(
-      h1("Price of your call"),
-      verbatimTextOutput("BScallprise"))
+      h1("Price of your option"),
+      verbatimTextOutput("BSprice"))
   ),
   
-  
+  titlePanel("Part 2: real data"),
 
   
   plotOutput("plotBM")

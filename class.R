@@ -41,7 +41,8 @@ BSworld <- function(S0, K, T, r, sigma, type, C = 100) {
 }
 
 
-obj1 <- BSworld(100,105, 1, 0.05, 0.02, "call")
+# obj1 <- BSworld(100, 105, 1, 0.05, 0.02, "call")
+
 
 # method 1: BScallPrice
 
@@ -78,7 +79,7 @@ BSPrice.BSworld <- function(instance.of.BSworld) {
   
 }
 
-BSPrice(obj1)
+# BSPrice(obj1)
 # BScallPrice(2)
 
 # method: delta
@@ -111,7 +112,8 @@ BSdelta.BSworld <- function(instance.of.BSworld) {
   
 }
 
-BSdelta(obj1)
+# BSdelta(obj1)
+
 
 # method: gamma
 
@@ -145,6 +147,7 @@ BSgamma.BSworld <- function(instance.of.BSworld) {
 
 BSgamma(obj1)
 
+
 # method: rho
 
 BSrho <- function(someClass) {
@@ -175,7 +178,7 @@ BSrho.BSworld <- function(instance.of.BSworld) {
   
 }
 
-BSrho(obj1)
+# BSrho(obj1)
 
 
 # method: BSvega
@@ -207,7 +210,7 @@ BSvega.BSworld <- function(instance.of.BSworld){
   
   }
 
-BSvega(obj1)
+# BSvega(obj1)
 
 
 # method: BSimpVol.BSworld
@@ -244,8 +247,8 @@ BSimpVol.BSworld <- function(instance.of.BSworld){
   }
 
 
-BScallImpVol(obj1)
-obj1$sigma
+# BScallImpVol(obj1)
+# obj1$sigma
 # create instance of the class BSworld
 
 # obj1 <- BSworld(100,105, 1, 0.05, 0.02)
