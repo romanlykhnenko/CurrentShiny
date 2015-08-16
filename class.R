@@ -6,7 +6,7 @@ library(fOptions)
 
 # constructor for the class BSworld ###########################################
 
-BSworld <- function(S0, K, T, r, sigma, type) {
+BSworld <- function(S0, K, T, r, sigma, type, C = 100) {
   
     # Arguments of the function (attributes of the class BSworld)
     #
@@ -21,6 +21,9 @@ BSworld <- function(S0, K, T, r, sigma, type) {
     #       sigma : volatility 
     #       
     #       type:   call or put
+    #    
+    #       C:      option price observed from the market(if not specified
+    #               then 100 by default)
     # 
     # returns:
     #
@@ -30,7 +33,8 @@ BSworld <- function(S0, K, T, r, sigma, type) {
   
   # add input check
   
-  instanceBSworld <-list(S0 = S0, K = K, T = T, r = r, sigma = sigma, type = type)
+  instanceBSworld <-list(S0 = S0, K = K, T = T, r = r, sigma = sigma, 
+                         type = type, C = C)
   class(instanceBSworld) <- "BSworld"
   instanceBSworld
   
@@ -77,8 +81,104 @@ BSPrice.BSworld <- function(instance.of.BSworld) {
 BSPrice(obj1)
 # BScallPrice(2)
 
+# method: delta
 
-# method 2: BSvega
+BSdelta <- function(someClass) {
+  
+  UseMethod("BSdelta", someClass)
+  
+}
+
+BSdelta.BSworld <- function(instance.of.BSworld) {
+  
+  # get all attributes of the class BSworld using given instance of this class
+  S0 <- instance.of.BSworld$S0
+  K <- instance.of.BSworld$K
+  T <- instance.of.BSworld$T
+  r <- instance.of.BSworld$r
+  sigma <- instance.of.BSworld$sigma
+  type <- instance.of.BSworld$type
+  
+  d1 = (log(S0 / K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
+  
+  deltaCall <- pnorm(d1)
+  
+  deltaPut <- -pnorm(-d1)
+  
+  valueOut <- ifelse(type == "call", deltaCall, deltaPut)
+  
+  return(list(type = type, delta = valueOut)) # make better summary
+  
+}
+
+BSdelta(obj1)
+
+# method: gamma
+
+BSgamma <- function(someClass) {
+  
+  UseMethod("BSgamma", someClass)
+  
+}
+
+BSgamma.BSworld <- function(instance.of.BSworld) {
+  
+  # get all attributes of the class BSworld using given instance of this class
+  S0 <- instance.of.BSworld$S0
+  K <- instance.of.BSworld$K
+  T <- instance.of.BSworld$T
+  r <- instance.of.BSworld$r
+  sigma <- instance.of.BSworld$sigma
+  type <- instance.of.BSworld$type
+  
+  d1 = (log(S0 / K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
+  
+  gammaCall <- dnorm(d1)/(S0*sigma*sqrt(T))
+  
+  gammaPut <- dnorm(d1)/(S0*sigma*sqrt(T))
+  
+  valueOut <- ifelse(type == "call", gammaCall, gammaPut)
+  
+  return(list(type = type, gamma = valueOut)) # make better summary
+  
+}
+
+BSgamma(obj1)
+
+# method: rho
+
+BSrho <- function(someClass) {
+  
+  UseMethod("BSrho", someClass)
+  
+}
+
+BSrho.BSworld <- function(instance.of.BSworld) {
+  
+  # get all attributes of the class BSworld using given instance of this class
+  S0 <- instance.of.BSworld$S0
+  K <- instance.of.BSworld$K
+  T <- instance.of.BSworld$T
+  r <- instance.of.BSworld$r
+  sigma <- instance.of.BSworld$sigma
+  type <- instance.of.BSworld$type
+  
+  d2 <- (log(S0 / K) + (r - 0.5 * sigma^2) * T) / (sigma * sqrt(T))
+  
+  rhoCall <- T*K*exp(-r * T)*pnorm(d2)
+  
+  rhoPut <- -T*K*exp(-r * T)*pnorm(-d2)
+  
+  valueOut <- ifelse(type == "call", rhoCall, rhoPut)
+  
+  return(list(type = type, rho = valueOut)) # make better summary
+  
+}
+
+BSrho(obj1)
+
+
+# method: BSvega
 
 
 # reserve the name of the function, and use UseMethod command to tell R to 
@@ -90,7 +190,7 @@ BSvega <- function(someClass) {
 }
 
 
-BSvega.BSworld <- function(instance.of.BSworld) {
+BSvega.BSworld <- function(instance.of.BSworld){
   
   # get all attributes of the class BSworld using given instance of this class
   S0 <- instance.of.BSworld$S0
@@ -101,27 +201,27 @@ BSvega.BSworld <- function(instance.of.BSworld) {
   
   d1 = (log(S0 / K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
   
-  vega = S0 * pnorm(d1) * sqrt(T)
+  vega = S0 * dnorm(d1) * sqrt(T)
   
-  return(vega)
+  return(list(type = type, vega = vega))
   
-}
+  }
 
-# BSvega(obj1)
+BSvega(obj1)
 
 
-# method3: BScallImpVol.BSworld
+# method: BSimpVol.BSworld
 
 # reserve the name of the function, and use UseMethod command to tell R to 
 # search for the correct function
-BScallImpVol <- function(someClass) {
+BSimpVol <- function(someClass) {
   
-  UseMethod("BScallImpVol", someClass)
+  UseMethod("BSimpVol", someClass)
   
 }
 
 
-BScallImpVol.BSworld <- function(instance.of.BSworld) {
+BSimpVol.BSworld <- function(instance.of.BSworld){
   
   # get all attributes of the class BSworld using given instance of this class
   S0 <- instance.of.BSworld$S0
@@ -129,15 +229,23 @@ BScallImpVol.BSworld <- function(instance.of.BSworld) {
   T <- instance.of.BSworld$T
   r <- instance.of.BSworld$r
   sigma <- instance.of.BSworld$sigma
+  C <- instance.of.BSworld$C
   
-  implVol <- GBSVolatility(price = C0, TypeFlag = "c", S = S0, X = K, Time = T, r = r, b = 0)
+  CallImplVol <- GBSVolatility(price = C, TypeFlag = "c", S = S0, X = K,
+                               Time = T, r = r, b = r)
   
-  return(implVol)
-}
+  PutImplVol <- GBSVolatility(price = C, TypeFlag = "p", S = S0, X = K,
+                              Time = T, r = r, b = r)
+  
+  valueOut <- ifelse(type == "call", CallImplVol, PutImplVol)
+  
+  return(list(type = type, implVol = valueOut))
+
+  }
 
 
-# BScallImpVol(obj1)
-
+BScallImpVol(obj1)
+obj1$sigma
 # create instance of the class BSworld
 
 # obj1 <- BSworld(100,105, 1, 0.05, 0.02)
