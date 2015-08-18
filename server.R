@@ -1,7 +1,7 @@
 
 library(shiny)
 library(fOptions)
-source("code1.R")
+# source("code1.R")
 source("class.R")
 #source("2.R")
 

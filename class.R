@@ -145,7 +145,7 @@ BSgamma.BSworld <- function(instance.of.BSworld) {
   
 }
 
-BSgamma(obj1)
+# BSgamma(obj1)
 
 
 # method: rho
