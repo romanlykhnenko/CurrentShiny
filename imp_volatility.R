@@ -58,33 +58,5 @@ ggplot(plotData, aes(STRIKE, ImpVol, group = MATURITY,
 
 
 
-# select all distinct maturities
-maturities <- distinct(select(vstoxxOptions3103call, MATURITY))
 
-
-# select options with first maturity
-m2 <- filter(vstoxxOptions3103call, 
-             strptime(MATURITY, format = "%Y-%m-%d ") == 
-               strptime(maturities[2,], format = "%Y-%m-%d ") )
-
-plot(m1$STRIKE, m1$ImpVol, type = 'l')
-lines(m2$STRIKE, m2$ImpVol, type = 'l')
-STRIKE <- vstoxxOptions3103call$STRIKE[1]
-TTM <- 0.049
-PRICE <- vstoxxOptions3103call$PRICE[1]
-
-
-
-
-bs_call_price(V0, STRIKE, TTM, r, 2)
-bs_vega(V0, STRIKE, TTM, r, 2)
-bs_vega <- function(S0, K, T, r, sigma) {
-  
-  d1 = (log(S0 / K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
-  
-  vega = S0 * pnorm(d1) * sqrt(T)
-  
-  return(vega)
-  
-}
 
