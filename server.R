@@ -5,10 +5,8 @@ library(shiny)
 library(fOptions)
 
 source("class.R")
-source("funImpVola.R")
 source("functions.R")
-
-
+source("funImpVola.R")
 
 # VSTOXX index read from csv file
 vstoxxIndex <- read.csv("Data/vstoxx_index.csv")
@@ -28,18 +26,18 @@ shinyServer(function(input, output){
                                                   input$type))  })
   
   
+  # used to filter option data with regard to date provided by a user
+   tradingDate <- reactive({
+     input$date
+   })
   
-  output$dateOption <- renderPrint({ input$date })
-  
-  plotData <- reactive({
-     impVola(input$date, vstoxxOptions)
-    
-  })
-    
+  # plot implied volatilities(for all maturities) for a provided date
   output$plotImplVola <- renderPlot({ 
-    ggplot(plotData(), aes(STRIKE, ImpVol, group = MATURITY,
+    
+    plotData1 <- impVola(tradingDate(), vstoxxOptions)
+    ggplot(plotData1 , aes(STRIKE, ImpVol, group = MATURITY,
                          colour = MATURITY)) + geom_line()
-  })
+ })
   
   output$plotBM <- renderPlot({ 
     BS_price(input$strike)
