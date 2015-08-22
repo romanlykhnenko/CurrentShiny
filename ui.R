@@ -31,7 +31,13 @@ shinyUI(fluidPage(
   ),
   
   titlePanel("Part 2: real data"),
-
+  
+  # input of the date to select option trading day
+  dateInput("date", label = h3("Date input"), value = "2014-03-31"),
+  
+  fluidRow(column(3, verbatimTextOutput("dateOption"))),
+  
+  plotOutput("plotImplVola"),
   
   plotOutput("plotBM")
 ))
