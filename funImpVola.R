@@ -1,12 +1,10 @@
 
-impVola <- function(dateOption, vstoxxOptions){
+impVola <- function(dateOption, vstoxxOptions, vstoxxIndex){
   
-  # dateOption must be in date format
-  
-  # select options traded only on the date provided by user
+  # take Options traded on dateOption
   vstoxxOptions3103 <- dplyr::filter(vstoxxOptions, 
-                              as.Date(strptime(vstoxxOptions$DATE, 
-                                       format = "%Y-%m-%d ")) == dateOption)
+                                     as.Date(strptime(vstoxxOptions$DATE, 
+                                                      format = "%Y-%m-%d ")) == dateOption)
   
   # add time to maturity (in years) as a column
   vstoxxOptions3103 = mutate(vstoxxOptions3103, 
@@ -21,13 +19,19 @@ impVola <- function(dateOption, vstoxxOptions){
   # distinct(select(vstoxxOptions3103, STRIKE))
   
   # select only call options
-  vstoxxOptions3103call <- vstoxxOptions3103[vstoxxOptions3103$TYPE =="C", ]
+  vstoxxOptions3103call = dplyr::filter(vstoxxOptions3103, TYPE == 'C')
   
   # select only put options
-  # vstoxxOptions3103put = filter(vstoxxOptions3103, TYPE == 'P')
+  vstoxxOptions3103put = dplyr::filter(vstoxxOptions3103, TYPE == 'P')
   
   # VSTOXX value
-  V0 <- 17.6639 
+  V0 <- vstoxxIndex %>%
+    dplyr::filter(as.Date(Date) == dateOption ) %>%
+    select(V2TX)
+  
+  # coerce dataframe to a number
+  V0 <- as.numeric(as.vector(V0))
+  
   
   # short rate
   r  <- 0.01
@@ -41,9 +45,10 @@ impVola <- function(dateOption, vstoxxOptions){
   na.omit(vstoxxOptions3103call)
   
   # select options with non-zero maturity
-  plotData <- vstoxxOptions3103call[vstoxxOptions3103call$ImpVol > 0, ]
-    
+  plotData <- dplyr::filter(vstoxxOptions3103call, ImpVol > 0)
+  
   return(plotData)
   
 }
+
 
