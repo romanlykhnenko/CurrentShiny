@@ -47,8 +47,8 @@ bsVega <- function(S0, K, T, r, sigma) {
 bsCallImpVol <- function(S0, K, T, r, C0, sigmaEst, it=100) {
   
   for( i in 1:it){
-    sigmaEst <- sigmaEst - ((bs_call_price(S0, K, T, r, sigmaEst) - C0)
-                            / bs_vega(S0, K, T, r, sigmaEst))
+    sigmaEst <- sigmaEst - ((bsCallPrice(S0, K, T, r, sigmaEst) - C0)
+                            / bsVega(S0, K, T, r, sigmaEst))
   }
   
   return(sigmaEst)
