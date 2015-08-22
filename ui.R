@@ -42,5 +42,7 @@ shinyUI(fluidPage(
   
   plotOutput("plotImplVola"),
   
+  plotOutput("plotObsPrices"),
+  
   plotOutput("plotBM")
 ))
