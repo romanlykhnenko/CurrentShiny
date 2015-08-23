@@ -1,4 +1,4 @@
-# Valuation of call options in BS model
+# Valuation of options in BS model
 
 
 # load libraries
@@ -44,7 +44,7 @@ BSworld <- function(S0, K, T, r, sigma, type, C = 100) {
 # obj1 <- BSworld(100, 105, 1, 0.05, 0.02, "call")
 
 
-# method 1: BScallPrice
+# method 1: BSPrice
 
 # reserve the name of the function, and use UseMethod command to tell R to 
 # search for the correct function
@@ -54,7 +54,7 @@ BSPrice <- function(someClass) {
   
 }
 
-# definition of the method BScallPrice for the class BSworld
+# definition of the method BSPrice for the class BSworld
 BSPrice.BSworld <- function(instance.of.BSworld) {
   
   # get all attributes of the class BSworld using given instance of this class
@@ -201,6 +201,7 @@ BSvega.BSworld <- function(instance.of.BSworld){
   T <- instance.of.BSworld$T
   r <- instance.of.BSworld$r
   sigma <- instance.of.BSworld$sigma
+  type <- instance.of.BSworld$type
   
   d1 = (log(S0 / K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
   
@@ -252,3 +253,50 @@ BSimpVol.BSworld <- function(instance.of.BSworld){
 # create instance of the class BSworld
 
 # obj1 <- BSworld(100,105, 1, 0.05, 0.02)
+
+
+# print method for the class BSworld
+print.BSworld <- function(instance.of.BSworld) {
+  
+  # compute option characteristic for a object specified by user
+  
+  optionType <- instance.of.BSworld$type
+  
+  price <- BSPrice(instance.of.BSworld)[[2]]
+  
+  delta <- BSdelta(instance.of.BSworld)[[2]]
+    
+  gamma <- BSgamma(instance.of.BSworld)[[2]]
+  
+  rho   <- BSrho(instance.of.BSworld)[[2]]
+  
+  vega  <- BSvega(instance.of.BSworld)[[2]]
+  
+  # print procedure
+  
+  cat("Type of the option:\n")
+  cat(paste(optionType, "\n\n"))
+  
+  cat("Price of the option based on Black-Scholes formula:\n")
+  cat(paste(price, "\n\n"))
+  
+  cat("Delta:\n")
+  cat(paste(delta, "\n\n"))
+  
+  cat("Gamma:\n")
+  cat(paste(gamma, "\n\n"))
+  
+  cat("Rho:\n") 
+  cat(paste(rho,"\n\n")) 
+  
+  cat("Vega:\n") 
+  cat(paste(vega, "\n"))
+  
+} 
+
+print(obj1)
+
+
+
+
+

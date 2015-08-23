@@ -22,7 +22,7 @@ vstoxxOptions <- read.csv("Data/vstoxx_options.csv")
 shinyServer(function(input, output){
   
   # option calculator
-  output$BSprice <- renderPrint({ BSPrice(BSworld(input$stock, input$strike,
+  output$BSprice <- renderPrint({ print(BSworld(input$stock, input$strike,
                                                   input$maturity, input$rate, input$vola,
                                                   input$type))  })
   
@@ -31,22 +31,22 @@ shinyServer(function(input, output){
    tradingDate <- reactive({
      input$date
    })
+   
+   plotData <- reactive({
+     impVola(tradingDate(), vstoxxOptions, vstoxxIndex )
+   })
   
   # plot implied volatilities(for all maturities) for a provided date
   output$plotImplVola <- renderPlot({ 
-    
-    plotData1 <- impVola(tradingDate(), vstoxxOptions, vstoxxIndex )
-    ggplot(plotData1 , aes(STRIKE, ImpVol, group = MATURITY,
+    ggplot(plotData(), aes(STRIKE, ImpVol, group = MATURITY,
                          colour = MATURITY)) + geom_line()
  })
   
-  # reactive expression to use !!!!
+  
   # plot observed from the market  option prices (for all maturities) 
   # for a date specified by user
   output$plotObsPrices <- renderPlot({ 
-    
-    plotData2 <- impVola(tradingDate(), vstoxxOptions, vstoxxIndex )
-    ggplot(plotData2, aes(STRIKE, PRICE, group = MATURITY,
+    ggplot(plotData(), aes(STRIKE, PRICE, group = MATURITY,
                            colour = MATURITY)) + geom_line()
   })
   
