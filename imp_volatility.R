@@ -19,8 +19,9 @@ class(dateOption)
   
 # take Options traded on 2014-03-31
 vstoxxOptions3103 <- dplyr::filter(vstoxxOptions, 
-                                   as.Date(strptime(vstoxxOptions$DATE, 
-                                                    format = "%Y-%m-%d ")) == dateOption)
+                                   as.Date(strptime(DATE, 
+                                                    format = "%Y-%m-%d ")) == 
+                                     dateOption)
 
 # add time to maturity (in years) as a column
 vstoxxOptions3103 = mutate(vstoxxOptions3103, 
@@ -70,6 +71,37 @@ ggplot(plotData, aes(STRIKE, ImpVol, group = MATURITY,
 # plot prices of options for different maturities
 ggplot(plotData, aes(STRIKE, PRICE, group = MATURITY,
                      colour = MATURITY)) + geom_line()
+
+# descriptive statistics
+plotData %>%
+  group_by(MATURITY, STRIKE)%>%
+  select(MATURITY, STRIKE, PRICE, ImpVol)%>%
+  summarise(sum(PRICE), sum(ImpVol))
+
+summary(vstoxxOptions)
+
+as.Date(strptime(vstoxxOptions$DATE, format = "%Y-%m-%d "))
+class(as.Date(vstoxxOptions$DATE, "%Y-%m-%d "))
+class(vstoxxOptions$DATE[1])
+# split all option data with regard to date of trading
+l1 <- split(vstoxxOptions, vstoxxOptions$DATE)
+
+# count number of maturities for each trading date
+l3 <- lapply(l1, function(list){ length(levels(factor(list$MATURITY)))})
+l33 <- sapply(l1, function(list){ length(levels(factor(list$MATURITY)))})
+
+
+function(list){ levels(factor(list$MATURITY))}
+
+levels(factor(l1[[1]]$MATURITY))
+
+summary(l1[[1]])
+
+l2 <- lapply(l1, summary) 
+l2[[1]]
+  
+  
+
 
 
 
