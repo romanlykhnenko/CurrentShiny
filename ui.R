@@ -24,14 +24,19 @@ shinyUI(fluidPage(
       
       sliderInput("vola","Select volatility", 0.1, 2, value = 0.2),
       
-      sliderInput("percent","To plot greeks", 1, 100, value = 50)
+      sliderInput("percent","To plot greeks", 1, 100, value = 50),
+      
+      radioButtons("greekType", "Select one of Greeks",
+                   c("Delta", "Gamma")
+      )
       
     ),
     
     mainPanel(
       h1("Price of your option"),
       verbatimTextOutput("BSprice"), 
-      plotOutput("plotDelta") )
+       
+      plotOutput("plotGreek") )
   ),
   
   titlePanel("Part 2: real data"),

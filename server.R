@@ -20,22 +20,41 @@ vstoxxOptions <- read.csv("Data/vstoxx_options.csv")
 
 
 
-shinyServer(function(input, output){
+shinyServer(function(input, output){ 
   
   # option calculator: print method for class BSworld 
   output$BSprice <- renderPrint({ print(BSworld(input$stock, input$strike, 
                                                 input$maturity, input$rate, 
                                                 input$vola, input$type))  })
-  
+  # plot delta of option 
   dataPlotDelta <- reactive({
     plotDelta(input$percent, input$stock, input$strike, input$maturity, input$rate, 
               input$vola, input$type)
   })
   
-  output$plotDelta <- renderPlot({
-    ggplot(dataPlotDelta(), aes(underlying, Delta)) + geom_line(size = 1)
+#   output$plotDelta <- renderPlot({
+#     ggplot(dataPlotDelta(), aes(underlying, Delta)) + geom_line(size = 1)
+#   })
+  
+  # plot gamma of option
+  dataPlotGamma <- reactive({
+    plotGamma(input$percent, input$stock, input$strike, input$maturity, input$rate, 
+              input$vola, input$type)
   })
   
+#   output$plotGamma <- renderPlot({
+#     ggplot(dataPlotGamma(), aes(underlying, Gamma)) + geom_line(size = 1)
+#   })
+  
+  # select which Greek must be showed
+  
+  output$plotGreek <- renderPlot({ 
+    if (input$greekType == "Delta") {
+      ggplot(dataPlotDelta(), aes(underlying, Delta)) + geom_line(size = 1)
+    } else if (input$greekType == "Gamma") {
+      ggplot(dataPlotGamma(), aes(underlying, Gamma)) + geom_line(size = 1)
+    }
+  }) 
   
   # used to filter option data with regard to date provided by a user
    tradingDate <- reactive({
