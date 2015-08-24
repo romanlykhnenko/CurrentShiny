@@ -22,13 +22,16 @@ shinyUI(fluidPage(
       
       sliderInput("rate","Select risk free rate", 0.01, 0.05, value = 0.02),
       
-      sliderInput("vola","Select volatility", 0.1, 2, value = 0.2)
+      sliderInput("vola","Select volatility", 0.1, 2, value = 0.2),
+      
+      sliderInput("percent","To plot greeks", 1, 100, value = 50)
       
     ),
     
     mainPanel(
       h1("Price of your option"),
-      verbatimTextOutput("BSprice"))
+      verbatimTextOutput("BSprice"), 
+      plotOutput("plotDelta") )
   ),
   
   titlePanel("Part 2: real data"),
@@ -42,7 +45,7 @@ shinyUI(fluidPage(
   
   plotOutput("plotImplVola"),
   
-  plotOutput("plotObsPrices"),
+  plotOutput("plotObsPrices")
   
-  plotOutput("plotBM")
+  
 ))

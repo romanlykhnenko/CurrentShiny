@@ -7,6 +7,7 @@ library(fOptions)
 source("class.R")
 source("functions.R")
 source("funImpVola.R")
+source("plotGreeks.R")
 
 # VSTOXX index read from csv file
 vstoxxIndex <- read.csv("Data/vstoxx_index.csv")
@@ -21,10 +22,19 @@ vstoxxOptions <- read.csv("Data/vstoxx_options.csv")
 
 shinyServer(function(input, output){
   
-  # option calculator
-  output$BSprice <- renderPrint({ print(BSworld(input$stock, input$strike,
-                                                  input$maturity, input$rate, input$vola,
-                                                  input$type))  })
+  # option calculator: print method for class BSworld 
+  output$BSprice <- renderPrint({ print(BSworld(input$stock, input$strike, 
+                                                input$maturity, input$rate, 
+                                                input$vola, input$type))  })
+  
+  dataPlotDelta <- reactive({
+    plotDelta(input$percent, input$stock, input$strike, input$maturity, input$rate, 
+              input$vola, input$type)
+  })
+  
+  output$plotDelta <- renderPlot({
+    ggplot(dataPlotDelta(), aes(underlying, Delta)) + geom_line(size = 1)
+  })
   
   
   # used to filter option data with regard to date provided by a user
@@ -39,7 +49,7 @@ shinyServer(function(input, output){
   # plot implied volatilities(for all maturities) for a provided date
   output$plotImplVola <- renderPlot({ 
     ggplot(plotData(), aes(STRIKE, ImpVol, group = MATURITY,
-                         colour = MATURITY)) + geom_line()
+                         colour = MATURITY)) + geom_line(size = 1)
  })
   
   
@@ -47,13 +57,9 @@ shinyServer(function(input, output){
   # for a date specified by user
   output$plotObsPrices <- renderPlot({ 
     ggplot(plotData(), aes(STRIKE, PRICE, group = MATURITY,
-                           colour = MATURITY)) + geom_line()
+                           colour = MATURITY)) + geom_line(size = 1)
   })
   
   
-  
-  output$plotBM <- renderPlot({ 
-    BS_price(input$strike)
-  })
   
   })
