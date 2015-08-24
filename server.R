@@ -26,33 +26,44 @@ shinyServer(function(input, output){
   output$BSprice <- renderPrint({ print(BSworld(input$stock, input$strike, 
                                                 input$maturity, input$rate, 
                                                 input$vola, input$type))  })
-  # plot delta of option 
+  # data to plot Delta of option 
   dataPlotDelta <- reactive({
     plotDelta(input$percent, input$stock, input$strike, input$maturity, input$rate, 
               input$vola, input$type)
   })
   
-#   output$plotDelta <- renderPlot({
-#     ggplot(dataPlotDelta(), aes(underlying, Delta)) + geom_line(size = 1)
-#   })
-  
-  # plot gamma of option
+
+  # data to plot Gamma of option
   dataPlotGamma <- reactive({
     plotGamma(input$percent, input$stock, input$strike, input$maturity, input$rate, 
               input$vola, input$type)
   })
   
-#   output$plotGamma <- renderPlot({
-#     ggplot(dataPlotGamma(), aes(underlying, Gamma)) + geom_line(size = 1)
-#   })
+
+  # data to plot Vega of option 
+  dataPlotVega <- reactive({
+    plotVega(input$percent, input$stock, input$strike, input$maturity, input$rate, 
+              input$vola, input$type)
+  })
+  
+  
+  # data to plot Rho of option
+  dataPlotRho <- reactive({
+    plotRho(input$percent, input$stock, input$strike, input$maturity, input$rate, 
+              input$vola, input$type)
+  })
+  
   
   # select which Greek must be showed
-  
   output$plotGreek <- renderPlot({ 
     if (input$greekType == "Delta") {
       ggplot(dataPlotDelta(), aes(underlying, Delta)) + geom_line(size = 1)
     } else if (input$greekType == "Gamma") {
       ggplot(dataPlotGamma(), aes(underlying, Gamma)) + geom_line(size = 1)
+    } else if (input$greekType == "Vega") {
+      ggplot(dataPlotVega(), aes(underlying, Vega)) + geom_line(size = 1)
+    } else if (input$greekType == "Rho") {
+      ggplot(dataPlotRho(), aes(underlying, Rho)) + geom_line(size = 1)
     }
   }) 
   

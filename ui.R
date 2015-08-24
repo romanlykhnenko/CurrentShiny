@@ -27,7 +27,7 @@ shinyUI(fluidPage(
       sliderInput("percent","To plot greeks", 1, 100, value = 50),
       
       radioButtons("greekType", "Select one of Greeks",
-                   c("Delta", "Gamma")
+                   c("Delta", "Gamma","Vega", "Rho")
       )
       
     ),
