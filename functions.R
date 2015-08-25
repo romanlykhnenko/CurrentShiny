@@ -54,3 +54,35 @@ bsCallImpVol <- function(S0, K, T, r, C0, sigmaEst, it=100) {
   return(sigmaEst)
 }
 
+
+StrikeValueCall <- function(vstoxxOptions){
+  
+  vstoxxOptions <- mutate(vstoxxOptions, 
+                          TTM = as.numeric((as.Date(MATURITY, format = "%Y-%m-%d ")
+                                            - as.Date(DATE, format = "%Y-%m-%d ") ) /360))
+  
+  StrikeValueCall <- vstoxxOptions %>%
+    dplyr::filter(TTM >= 0) %>%
+    dplyr::filter(TYPE == 'C' ) %>%
+    group_by(STRIKE) %>%
+    summarise(meanCallValueStrike = mean(PRICE))
+  
+  return(StrikeValueCall)
+}
+
+# ttmValueCall <- function(vstoxxOptions){
+#   
+#   ttmValueCall <- vstoxxOptions %>%
+#     filter(TTM >= 0) %>%
+#     filter(TYPE == 'C' ) %>%
+#     group_by(TTM) %>%
+#     summarise(meanCallValueTTM = mean(PRICE))
+#   
+#   return(ttmValueCall)
+# 
+# }
+
+# StrikeValueCall(vstoxxOptions)
+
+
+

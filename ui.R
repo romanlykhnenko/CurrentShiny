@@ -50,7 +50,8 @@ shinyUI(fluidPage(
   
   plotOutput("plotImplVola"),
   
-  plotOutput("plotObsPrices")
+  plotOutput("plotObsPrices"),
   
+  plotOutput("StrikeValueCall")
   
 ))

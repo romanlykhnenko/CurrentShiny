@@ -4,11 +4,6 @@ library(ggplot2)
 library(shiny)
 library(fOptions)
 
-source("class.R")
-source("functions.R")
-source("funImpVola.R")
-source("plotGreeks.R")
-
 # VSTOXX index read from csv file
 vstoxxIndex <- read.csv("Data/vstoxx_index.csv")
 
@@ -17,6 +12,15 @@ vstoxxFutures <- read.csv("Data/vstoxx_futures.csv")
 
 # Options on VSTOXX read from csv file
 vstoxxOptions <- read.csv("Data/vstoxx_options.csv")
+
+# source("initialDataPreparation.R")
+source("class.R")
+source("functions.R")
+source("funImpVola.R")
+source("plotGreeks.R")
+
+
+
 
 
 
@@ -67,6 +71,7 @@ shinyServer(function(input, output){
     }
   }) 
   
+
   # used to filter option data with regard to date provided by a user
    tradingDate <- reactive({
      input$date
@@ -90,6 +95,8 @@ shinyServer(function(input, output){
                            colour = MATURITY)) + geom_line(size = 1)
   })
   
-  
+  output$StrikeValueCall <- renderPlot({ 
+    ggplot(StrikeValueCall(vstoxxOptions), aes(STRIKE, meanCallValueStrike)) + geom_line()
+  })
   
   })
