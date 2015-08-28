@@ -256,6 +256,7 @@ BSimpVol.BSworld <- function(instance.of.BSworld){
 
 
 # print method for the class BSworld
+
 print.BSworld <- function(instance.of.BSworld) {
   
   # compute option characteristic for a object specified by user
@@ -294,7 +295,7 @@ print.BSworld <- function(instance.of.BSworld) {
   
 } 
 
-print(obj1)
+# print(obj1)
 
 
 

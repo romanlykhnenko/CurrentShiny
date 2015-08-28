@@ -1,15 +1,21 @@
 
 impVola <- function(dateOption, vstoxxOptions, vstoxxIndex){
   
+  # coerce to Date 
+  vstoxxOptions$DATE <- as.Date(vstoxxOptions$DATE, "%Y-%m-%d ")
+  
+  # coerce to Date
+  vstoxxOptions$MATURITY <- as.Date(vstoxxOptions$MATURITY, "%Y-%m-%d ")
+  
   # take Options traded on dateOption
   vstoxxOptions3103 <- dplyr::filter(vstoxxOptions, 
-                                     as.Date(strptime(vstoxxOptions$DATE, 
-                                                      format = "%Y-%m-%d ")) == dateOption)
+                                     as.Date(DATE, format = "%Y-%m-%d ") == 
+                                       dateOption)  
   
   # add time to maturity (in years) as a column
   vstoxxOptions3103 = mutate(vstoxxOptions3103, 
-                             TTM = as.numeric((strptime(MATURITY, format = "%Y-%m-%d ")
-                                               - strptime(DATE, format = "%Y-%m-%d ") ) /360))
+                             TTM = as.numeric((as.Date(MATURITY, format = "%Y-%m-%d ")
+                                               - as.Date(DATE, format = "%Y-%m-%d ") ) /360))
   
   
   # select all distinct maturities
@@ -46,6 +52,9 @@ impVola <- function(dateOption, vstoxxOptions, vstoxxIndex){
   
   # select options with non-zero maturity
   plotData <- dplyr::filter(vstoxxOptions3103call, ImpVol > 0)
+  
+  # coerce to factor
+  plotData$MATURITY <- factor(plotData$MATURITY)
   
   return(plotData)
   

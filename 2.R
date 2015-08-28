@@ -72,7 +72,7 @@ bs_vega <- function(S0, K, T, r, sigma) {
   
   d1 = (log(S0 / K) + (r + 0.5 * sigma^2) * T) / (sigma * sqrt(T))
   
-  vega = S0 * pnorm(d1) * sqrt(T)
+  vega = S0 * dnorm(d1) * sqrt(T)
   
   return(vega)
 
