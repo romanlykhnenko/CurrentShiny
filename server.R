@@ -95,8 +95,25 @@ shinyServer(function(input, output){
                            colour = MATURITY)) + geom_line(size = 1)
   })
   
+  # plot mean value of call options accros strikes
   output$StrikeValueCall <- renderPlot({ 
     ggplot(StrikeValueCall(vstoxxOptions), aes(STRIKE, meanCallValueStrike)) + geom_line()
   })
+  
+  # plot mean value of call options accros times to maturity
+  output$ttmValueCall <- renderPlot({ 
+    ggplot(ttmValueCall(vstoxxOptions), aes(TTM, meanCallValueTTM)) + geom_line()
+  })
+  
+  # plot mean value of put options accros strikes
+  output$StrikeValuePut <- renderPlot({ 
+    ggplot(StrikeValuePut(vstoxxOptions), aes(STRIKE, meanPutValueStrike)) + geom_line()
+  })
+  
+  # plot mean value of put options accros times to maturity
+  output$ttmValuePut <- renderPlot({ 
+    ggplot(ttmValuePut(vstoxxOptions), aes(TTM, meanPutValueTTM)) + geom_line()
+  })
+  
   
   })

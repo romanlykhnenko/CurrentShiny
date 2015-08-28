@@ -52,6 +52,13 @@ shinyUI(fluidPage(
   
   plotOutput("plotObsPrices"),
   
-  plotOutput("StrikeValueCall")
+  
+  plotOutput("StrikeValueCall"),
+  
+  plotOutput("ttmValueCall"),
+  
+  plotOutput("StrikeValuePut"),
+  
+  plotOutput("ttmValuePut")
   
 ))
