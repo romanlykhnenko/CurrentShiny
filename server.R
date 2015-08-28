@@ -97,13 +97,13 @@ shinyServer(function(input, output){
   
   
   output$descriptivePlot <- renderPlot({
-    if (input$selectPlot == "StrikeValueCall"){
+    if ((input$optionType == "call")&(input$selectPlot == "Strike")){
       ggplot(StrikeValueCall(vstoxxOptions), aes(STRIKE, meanCallValueStrike)) + geom_line()
-    } else if (input$selectPlot == "ttmValueCall"){
+    } else if ((input$optionType == "call")&(input$selectPlot == "maturity")){
       ggplot(ttmValueCall(vstoxxOptions), aes(TTM, meanCallValueTTM)) + geom_line()
-    } else if (input$selectPlot == "StrikeValuePut"){
+    } else if ((input$optionType == "put")&(input$selectPlot == "Strike")){
       ggplot(StrikeValuePut(vstoxxOptions), aes(STRIKE, meanPutValueStrike)) + geom_line()
-    } else if (input$selectPlot == "ttmValuePut"){
+    } else if ((input$optionType == "put")&(input$selectPlot == "maturity")){
       ggplot(ttmValuePut(vstoxxOptions), aes(TTM, meanPutValueTTM)) + geom_line()
       }
   })
