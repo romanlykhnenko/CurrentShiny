@@ -41,6 +41,10 @@ shinyUI(fluidPage(
   
   titlePanel("Part 2: real data"),
   
+  radioButtons("selectPlot", "Select plot ",
+               c("StrikeValueCall", "ttmValueCall","StrikeValuePut", 
+                 "ttmValuePut")
+  ),
   
   # input of the date to filter option data with regard to this date
   dateInput('date', label = h3("Date input"), value = '2014-03-31', 
@@ -48,17 +52,21 @@ shinyUI(fluidPage(
   
   # fluidRow(column(3, verbatimTextOutput("dateOption"))),
   
+  plotOutput("descriptivePlot"),
+  
+  
   plotOutput("plotImplVola"),
   
-  plotOutput("plotObsPrices"),
+  plotOutput("plotObsPrices")
   
   
-  plotOutput("StrikeValueCall"),
   
-  plotOutput("ttmValueCall"),
+#   plotOutput("StrikeValueCall"),
+#   
+#   plotOutput("ttmValueCall"),
+#   
+#   plotOutput("StrikeValuePut"),
+#   
+#   plotOutput("ttmValuePut")
   
-  plotOutput("StrikeValuePut"),
-  
-  plotOutput("ttmValuePut")
-  
-))
+)) 
