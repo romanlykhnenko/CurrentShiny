@@ -7,21 +7,14 @@ library(fOptions)
 # VSTOXX index read from csv file
 vstoxxIndex <- read.csv("Data/vstoxx_index.csv")
 
-# Futures on  VSTOXX read from csv file
-vstoxxFutures <- read.csv("Data/vstoxx_futures.csv")
-
 # Options on VSTOXX read from csv file
 vstoxxOptions <- read.csv("Data/vstoxx_options.csv")
 
-# source("initialDataPreparation.R")
+# load files to be used
 source("class.R")
 source("functions.R")
 source("funImpVola.R")
 source("plotGreeks.R")
-
-
-
-
 
 
 shinyServer(function(input, output){ 
@@ -77,6 +70,7 @@ shinyServer(function(input, output){
      input$date
    })
    
+  # data to plot implied volat. and option prices for a given data
    plotData <- reactive({
      impVola(tradingDate(), vstoxxOptions, vstoxxIndex )
    })
@@ -84,49 +78,38 @@ shinyServer(function(input, output){
   # plot implied volatilities(for all maturities) for a provided date
   output$plotImplVola <- renderPlot({ 
     ggplot(plotData(), aes(STRIKE, ImpVol, group = MATURITY,
-                         colour = MATURITY)) + geom_line(size = 1)
+                         colour = MATURITY)) + 
+      geom_line(size = 1) + 
+      labs(x="Strike", y="Implied volatility") +
+      ggtitle("Implied volatility as a function of strike") +
+      theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
+                                      face="bold", size=25, hjust=0.5))
  })
   
   
-  # plot observed from the market  option prices (for all maturities) 
+  # plot observed from the market option prices (for all maturities) 
   # for a date specified by user
   output$plotObsPrices <- renderPlot({ 
     ggplot(plotData(), aes(STRIKE, PRICE, group = MATURITY,
                            colour = MATURITY)) + geom_line(size = 1)
   })
   
-  
+  # select descriptive plot to show
   output$descriptivePlot <- renderPlot({
     if ((input$optionType == "call")&(input$selectPlot == "Strike")){
-      ggplot(StrikeValueCall(vstoxxOptions), aes(STRIKE, meanCallValueStrike)) + geom_line()
+      ggplot(StrikeValueCall(vstoxxOptions), aes(STRIKE, meanCallValueStrike)) + 
+        geom_line()
     } else if ((input$optionType == "call")&(input$selectPlot == "maturity")){
-      ggplot(ttmValueCall(vstoxxOptions), aes(TTM, meanCallValueTTM)) + geom_line()
+      ggplot(ttmValueCall(vstoxxOptions), aes(TTM, meanCallValueTTM)) + 
+        geom_line()
     } else if ((input$optionType == "put")&(input$selectPlot == "Strike")){
-      ggplot(StrikeValuePut(vstoxxOptions), aes(STRIKE, meanPutValueStrike)) + geom_line()
+      ggplot(StrikeValuePut(vstoxxOptions), aes(STRIKE, meanPutValueStrike)) + 
+        geom_line()
     } else if ((input$optionType == "put")&(input$selectPlot == "maturity")){
-      ggplot(ttmValuePut(vstoxxOptions), aes(TTM, meanPutValueTTM)) + geom_line()
+      ggplot(ttmValuePut(vstoxxOptions), aes(TTM, meanPutValueTTM)) + 
+        geom_line()
       }
   })
   
-#   # plot mean value of call options accros strikes
-#   output$StrikeValueCall <- renderPlot({ 
-#     ggplot(StrikeValueCall(vstoxxOptions), aes(STRIKE, meanCallValueStrike)) + geom_line()
-#   })
-#   
-#   # plot mean value of call options accros times to maturity
-#   output$ttmValueCall <- renderPlot({ 
-#     ggplot(ttmValueCall(vstoxxOptions), aes(TTM, meanCallValueTTM)) + geom_line()
-#   })
-#   
-#   # plot mean value of put options accros strikes
-#   output$StrikeValuePut <- renderPlot({ 
-#     ggplot(StrikeValuePut(vstoxxOptions), aes(STRIKE, meanPutValueStrike)) + geom_line()
-#   })
-#   
-#   # plot mean value of put options accros times to maturity
-#   output$ttmValuePut <- renderPlot({ 
-#     ggplot(ttmValuePut(vstoxxOptions), aes(TTM, meanPutValueTTM)) + geom_line()
-#   })
-  
-  
+
   })

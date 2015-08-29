@@ -24,11 +24,12 @@ shinyUI(fluidPage(
       
       sliderInput("vola","Select volatility", 0.1, 2, value = 0.2),
       
-      sliderInput("percent","rescale x-axis", 1, 100, value = 50),
       
-      radioButtons("greekType", "Select one of Greeks",
+      radioButtons("greekType", "Select one of Greeks to plot",
                    c("Delta", "Gamma","Vega", "Rho")
-      )
+      ),
+      
+      sliderInput("percent","rescale x-axis", 1, 100, value = 50)
       
     ),
     
@@ -50,9 +51,9 @@ shinyUI(fluidPage(
   
   plotOutput("descriptivePlot"),
   
-  # input of the date to filter option data with regard to this date
-  dateInput('date', label = h3("Date input"), value = '2014-03-31', 
-            format = "yyyy-mm-dd"),
+  # input of the date to select option data with regard to this date
+  dateInput('date', label = h3("Date input"), value ='2014-03-31', 
+            min = '2014-01-02', max = '2014-03-31', format = "yyyy-mm-dd"),
   
   # fluidRow(column(3, verbatimTextOutput("dateOption"))),
   
@@ -61,14 +62,6 @@ shinyUI(fluidPage(
   
   plotOutput("plotObsPrices")
   
-  
-  
-#   plotOutput("StrikeValueCall"),
-#   
-#   plotOutput("ttmValueCall"),
-#   
-#   plotOutput("StrikeValuePut"),
-#   
-#   plotOutput("ttmValuePut")
+
   
 )) 
