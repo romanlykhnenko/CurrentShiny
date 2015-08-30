@@ -65,14 +65,14 @@ shinyServer(function(input, output){
   }) 
   
 
-  # used to filter option data with regard to date provided by a user
-   tradingDate <- reactive({
-     input$date
-   })
+#   # used to filter option data with regard to date provided by a user
+#    tradingDate <- reactive({
+#      input$date
+#    })
    
   # data to plot implied volat. and option prices for a given data
    plotData <- reactive({
-     impVola(tradingDate(), vstoxxOptions, vstoxxIndex )
+     impVola(input$date, vstoxxOptions, vstoxxIndex)
    })
   
   # plot implied volatilities(for all maturities) for a provided date

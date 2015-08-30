@@ -5,10 +5,7 @@ library(shiny)
 shinyUI(navbarPage("Option Pricing",
                    
         tabPanel("Option Calculator", 
-        
-            # option calculator
-            titlePanel("Part 1: option calculator"),
-            
+      
             sidebarLayout(
               
               sidebarPanel(
@@ -43,10 +40,8 @@ shinyUI(navbarPage("Option Pricing",
         ),
             
         
-   tabPanel("Real Data",
-            
-            titlePanel("Part 2: real data"),
-            
+   tabPanel("VSTOXX Data",
+          
             selectInput("optionType", label = h3("Select type of the option"),
                         choices = list("Call option" = "call", "Put option" = "put")
                         ),
