@@ -50,7 +50,7 @@ plotDelta <- function(n, S0, K, T, r, sigma, type, C = 100){
   
   out
   
-}
+} 
 
 #t1 <- plotDelta(50, 100, 105, 1, 0.05, 0.02, "call")
 #ggplot(t1, aes(underlying, Delta)) + geom_line(size = 1)

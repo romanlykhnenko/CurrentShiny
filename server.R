@@ -79,11 +79,11 @@ shinyServer(function(input, output){
   output$plotImplVola <- renderPlot({ 
     ggplot(plotData(), aes(STRIKE, ImpVol, group = MATURITY,
                          colour = MATURITY)) + 
-      geom_line(size = 1) + 
-      labs(x="Strike", y="Implied volatility") +
-      ggtitle("Implied volatility as a function of strike") +
-      theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
-                                      face="bold", size=25, hjust=0.5))
+      geom_line(size = 1) 
+#       labs(x="Strike", y="Implied volatility") +
+#       ggtitle("Implied volatility as a function of strike") +
+#       theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
+#                                       face="bold", size=25, hjust=0.5))
  })
   
   
