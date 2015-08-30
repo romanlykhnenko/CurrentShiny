@@ -41,7 +41,7 @@ BSworld <- function(S0, K, T, r, sigma, type, C = 100) {
 }
 
 
-# obj1 <- BSworld(100, 105, 1, 0.05, 0.02, "call")
+# obj1 <- BSworld(100, 105, 1, 0.05, 0.02, "call", 30)
 
 
 # method 1: BSPrice
@@ -234,6 +234,7 @@ BSimpVol.BSworld <- function(instance.of.BSworld){
   r <- instance.of.BSworld$r
   sigma <- instance.of.BSworld$sigma
   C <- instance.of.BSworld$C
+  type <- instance.of.BSworld$type
   
   CallImplVol <- GBSVolatility(price = C, TypeFlag = "c", S = S0, X = K,
                                Time = T, r = r, b = r)
@@ -248,7 +249,7 @@ BSimpVol.BSworld <- function(instance.of.BSworld){
   }
 
 
-# BScallImpVol(obj1)
+# BSimpVol(4)
 # obj1$sigma
 # create instance of the class BSworld
 
