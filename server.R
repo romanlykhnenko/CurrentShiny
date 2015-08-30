@@ -79,11 +79,11 @@ shinyServer(function(input, output){
   output$plotImplVola <- renderPlot({ 
     ggplot(plotData(), aes(STRIKE, ImpVol, group = MATURITY,
                          colour = MATURITY)) + 
-      geom_line(size = 1) 
-#       labs(x="Strike", y="Implied volatility") +
-#       ggtitle("Implied volatility as a function of strike") +
-#       theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
-#                                       face="bold", size=25, hjust=0.5))
+      geom_line(size = 1) +
+      labs(x="Strike", y="Implied volatility") +
+      ggtitle("Implied volatility as a function of strike") +
+      theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
+                                      face="bold", size=25, hjust=0.5))
  })
   
   
@@ -91,23 +91,32 @@ shinyServer(function(input, output){
   # for a date specified by user
   output$plotObsPrices <- renderPlot({ 
     ggplot(plotData(), aes(STRIKE, PRICE, group = MATURITY,
-                           colour = MATURITY)) + geom_line(size = 1)
+                           colour = MATURITY)) + 
+      geom_line(size = 1) + 
+      labs(x="Strike", y="Price ") +
+      ggtitle("Price observed form the market as a function of strike") +
+      theme(plot.title = element_text(family = "Trebuchet MS", color="#666666", 
+                                      face="bold", size=25, hjust=0.5))
   })
   
   # select descriptive plot to show
   output$descriptivePlot <- renderPlot({
     if ((input$optionType == "call")&(input$selectPlot == "Strike")){
       ggplot(StrikeValueCall(vstoxxOptions), aes(STRIKE, meanCallValueStrike)) + 
-        geom_line()
+        geom_line() +
+        labs(x="strike", y="average value of option")
     } else if ((input$optionType == "call")&(input$selectPlot == "maturity")){
       ggplot(ttmValueCall(vstoxxOptions), aes(TTM, meanCallValueTTM)) + 
-        geom_line()
+        geom_line() + 
+        labs(x="maturity", y="average value of option")
     } else if ((input$optionType == "put")&(input$selectPlot == "Strike")){
       ggplot(StrikeValuePut(vstoxxOptions), aes(STRIKE, meanPutValueStrike)) + 
-        geom_line()
+        geom_line() +
+        labs(x="strike", y="average value of option")
     } else if ((input$optionType == "put")&(input$selectPlot == "maturity")){
       ggplot(ttmValuePut(vstoxxOptions), aes(TTM, meanPutValueTTM)) + 
-        geom_line()
+        geom_line() +
+        labs(x="maturity", y="average value of option")
       }
   })
   
