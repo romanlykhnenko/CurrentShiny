@@ -51,7 +51,7 @@ shinyUI(navbarPage("Option Pricing",
                                            # all dates
             
             # input of the date to select option data with regard to this date
-            dateInput('date', label = h3("Date input"), value ='2014-03-31', 
+            dateInput('date', label = h3("Date input"), value ='2014-03-27', 
                       min = '2014-01-02', max = '2014-03-31', format = "yyyy-mm-dd"),
             
             plotOutput("plotImplVola"), # plot volatility smiles 
