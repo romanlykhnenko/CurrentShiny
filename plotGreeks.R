@@ -1,13 +1,13 @@
 
 # plot gamma of option  when stock price is being varied #######################
 
-plotGamma <- function(n, S0, K, T, r, sigma, type, C = 100){
+plotGamma <- function(n, S0, K, T, r, sigma, type){
   
  # n is used to control the width of the interval used as X-axis in plot
   
   gammaValue <- function(stock){
     
-    out <- BSgamma(BSworld(stock, K, T, r, sigma, type, C = 100))$gamma
+    out <- BSgamma(BSworld(stock, K, T, r, sigma, type))$gamma
     
     out
     
@@ -29,13 +29,13 @@ plotGamma <- function(n, S0, K, T, r, sigma, type, C = 100){
 ################################################################################
 
 # plot delta when stock price is being varied ##################################
-plotDelta <- function(n, S0, K, T, r, sigma, type, C = 100){
+plotDelta <- function(n, S0, K, T, r, sigma, type){
   
   # n is used to control the width of the interval used as X-axis in plot
   
   deltaValue <- function(stock){
     
-    out <- BSdelta(BSworld(stock, K, T, r, sigma, type, C = 100))$delta
+    out <- BSdelta(BSworld(stock, K, T, r, sigma, type))$delta
     
     out
     
@@ -58,13 +58,13 @@ plotDelta <- function(n, S0, K, T, r, sigma, type, C = 100){
 
 
 # plot rho when stock price is being varied ##################################
-plotRho <- function(n, S0, K, T, r, sigma, type, C = 100){
+plotRho <- function(n, S0, K, T, r, sigma, type){
   
   # n is used to control the width of the interval used as X-axis in plot
   
   rhoValue <- function(stock){
     
-    out <- BSrho(BSworld(stock, K, T, r, sigma, type, C = 100))$rho
+    out <- BSrho(BSworld(stock, K, T, r, sigma, type))$rho
     
     out
     
@@ -86,13 +86,13 @@ plotRho <- function(n, S0, K, T, r, sigma, type, C = 100){
 ################################################################################
 
 # plot Vega when stock price is being varied ##################################
-plotVega <- function(n, S0, K, T, r, sigma, type, C = 100){
+plotVega <- function(n, S0, K, T, r, sigma, type){
   
   # n is used to control the width of the interval used as X-axis in plot
   
   vegaValue <- function(stock){
     
-    out <- BSvega(BSworld(stock, K, T, r, sigma, type, C = 100))$vega
+    out <- BSvega(BSworld(stock, K, T, r, sigma, type))$vega
     
     out
     
