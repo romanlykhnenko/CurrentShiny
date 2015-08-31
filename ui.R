@@ -3,13 +3,13 @@
 library(shiny)
 
 shinyUI(navbarPage("Option Pricing",
-                   
+        # part 1: Option Calculator      
         tabPanel("Option Calculator", 
       
             sidebarLayout(
               
               sidebarPanel(
-                
+                # input option characteristics
                 selectInput("type", label = h3("Select type of the option"),
                             choices = list("Call option" = "call", "Put option" = "put")
                             ),
@@ -32,14 +32,14 @@ shinyUI(navbarPage("Option Pricing",
               ),
               
               mainPanel(
-                h1("Price of your option"),
-                verbatimTextOutput("BSprice"),
-                plotOutput("plotGreek")
+                h1("Properties of your option"),
+                verbatimTextOutput("BSprice"), # output option price and Greeks
+                plotOutput("plotGreek") # output plot of one of the Greeks
                 )
             )
         ),
             
-        
+   # part 2: VSTOXX Data    
    tabPanel("VSTOXX Data",
           
             selectInput("optionType", label = h3("Select type of the option"),
@@ -50,15 +50,16 @@ shinyUI(navbarPage("Option Pricing",
                          c("Strike", "maturity")
                          ),
             
-            plotOutput("descriptivePlot"),
+            plotOutput("descriptivePlot"), # plot price of option averaged accross
+                                           # all dates
             
             # input of the date to select option data with regard to this date
             dateInput('date', label = h3("Date input"), value ='2014-03-31', 
                       min = '2014-01-02', max = '2014-03-31', format = "yyyy-mm-dd"),
             
-            plotOutput("plotImplVola"),
+            plotOutput("plotImplVola"), # plot volatility smiles 
             
-            plotOutput("plotObsPrices")
+            plotOutput("plotObsPrices") # plot option prices observed from market
             
             )
   

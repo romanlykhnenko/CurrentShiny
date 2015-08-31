@@ -1,6 +1,20 @@
 
 impVola <- function(dateOption, vstoxxOptions, vstoxxIndex){
   
+  # input:
+  #
+  #       dateOption: date for which volatility smiles must be ploted
+  #
+  #       vstoxxOptions: options on VSTOXX with all characterisitcs
+  #
+  #       vstoxxIndex:  values of VSTOXX index
+  #
+  # output: 
+  #
+  #       plotData: data frame containing all required information to plot
+  #                 volatility smiles and observed option prices
+  
+  
   # coerce to Date 
   vstoxxOptions$DATE <- as.Date(vstoxxOptions$DATE, "%Y-%m-%d ")
   
@@ -18,19 +32,11 @@ impVola <- function(dateOption, vstoxxOptions, vstoxxIndex){
                                                - as.Date(DATE, format = "%Y-%m-%d ") ) /360))
   
   
-  # select all distinct maturities
-  # distinct(select(vstoxxOptions3103, MATURITY))
-  
-  # select all distinct strikes
-  # distinct(select(vstoxxOptions3103, STRIKE))
   
   # select only call options
   vstoxxOptions3103call = dplyr::filter(vstoxxOptions3103, TYPE == 'C')
   
-  # select only put options
-  vstoxxOptions3103put = dplyr::filter(vstoxxOptions3103, TYPE == 'P')
-  
-  # VSTOXX value
+  # VSTOXX value for a give date
   V0 <- vstoxxIndex %>%
     dplyr::filter(as.Date(Date) == dateOption ) %>%
     select(V2TX)

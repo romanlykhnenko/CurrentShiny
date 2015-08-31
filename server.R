@@ -1,16 +1,12 @@
-# load packages
-library(dplyr)
-library(ggplot2)
-library(shiny)
-library(fOptions)
-
-# VSTOXX index read from csv file
+# load data
+# VSTOXX index 
 vstoxxIndex <- read.csv("Data/vstoxx_index.csv")
 
-# Options on VSTOXX read from csv file
+# Options on VSTOXX 
 vstoxxOptions <- read.csv("Data/vstoxx_options.csv")
 
 # load files to be used
+source("packages.R")
 source("class.R")
 source("functions.R")
 source("funImpVola.R")
@@ -65,10 +61,7 @@ shinyServer(function(input, output){
   }) 
   
 
-#   # used to filter option data with regard to date provided by a user
-#    tradingDate <- reactive({
-#      input$date
-#    })
+
    
   # data to plot implied volat. and option prices for a given data
    plotData <- reactive({
