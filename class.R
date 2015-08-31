@@ -6,7 +6,7 @@ library(fOptions)
 
 # constructor for the class BSworld ###########################################
 
-BSworld <- function(S0, K, T, r, sigma, type, C = 100) {
+BSworld <- function(S0, K, T, r, sigma, type) {
   
     # Arguments of the function (attributes of the class BSworld)
     #
@@ -22,8 +22,7 @@ BSworld <- function(S0, K, T, r, sigma, type, C = 100) {
     #       
     #       type:   call or put
     #    
-    #       C:      option price observed from the market(if not specified
-    #               then 100 by default)
+    #       
     # 
     # returns:
     #
@@ -34,14 +33,14 @@ BSworld <- function(S0, K, T, r, sigma, type, C = 100) {
   # add input check
   
   instanceBSworld <-list(S0 = S0, K = K, T = T, r = r, sigma = sigma, 
-                         type = type, C = C)
+                         type = type)
   class(instanceBSworld) <- "BSworld"
   instanceBSworld
   
 }
 
 
-# obj1 <- BSworld(100, 105, 1, 0.05, 0.02, "call", 30)
+# obj1 <- BSworld(100, 105, 1, 0.05, 0.02, "call")
 
 
 # method 1: BSPrice
@@ -212,49 +211,6 @@ BSvega.BSworld <- function(instance.of.BSworld){
   }
 
 # BSvega(obj1)
-
-
-# method: BSimpVol.BSworld
-
-# reserve the name of the function, and use UseMethod command to tell R to 
-# search for the correct function
-BSimpVol <- function(someClass) {
-  
-  UseMethod("BSimpVol", someClass)
-  
-}
-
-
-BSimpVol.BSworld <- function(instance.of.BSworld){
-  
-  # get all attributes of the class BSworld using given instance of this class
-  S0 <- instance.of.BSworld$S0
-  K <- instance.of.BSworld$K
-  T <- instance.of.BSworld$T
-  r <- instance.of.BSworld$r
-  sigma <- instance.of.BSworld$sigma
-  C <- instance.of.BSworld$C
-  type <- instance.of.BSworld$type
-  
-  CallImplVol <- GBSVolatility(price = C, TypeFlag = "c", S = S0, X = K,
-                               Time = T, r = r, b = r)
-  
-  PutImplVol <- GBSVolatility(price = C, TypeFlag = "p", S = S0, X = K,
-                              Time = T, r = r, b = r)
-  
-  valueOut <- ifelse(type == "call", CallImplVol, PutImplVol)
-  
-  return(list(type = type, implVol = valueOut))
-
-  }
-
-
-# BSimpVol(4)
-# obj1$sigma
-# create instance of the class BSworld
-
-# obj1 <- BSworld(100,105, 1, 0.05, 0.02)
-
 
 # print method for the class BSworld
 
