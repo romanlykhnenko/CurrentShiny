@@ -1,7 +1,4 @@
 
-
-library(shiny)
-
 shinyUI(navbarPage("Option Pricing",
         # part 1: Option Calculator      
         tabPanel("Option Calculator", 
