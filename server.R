@@ -64,6 +64,7 @@ shinyServer(function(input, output){
 
    
   # data to plot implied volat. and option prices for a given data
+  # a reactive conductor is used 
    plotData <- reactive({
      impVola(input$date, vstoxxOptions, vstoxxIndex)
    })
