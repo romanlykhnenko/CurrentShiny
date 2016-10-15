@@ -2,7 +2,7 @@
 
 Shiny application created as an examination for the seminar **Programming with R**
 
-Shiny application consists of two distinct subcomponents: **Option calculator** and **VSTOXX Analysis**. ** OptionCalculator** can be used to evaluate Black-Scholes price of the option as well
+Shiny application consists of two distinct subcomponents: **Option calculator** and **VSTOXX Analysis**. **OptionCalculator** can be used to evaluate Black-Scholes price of the option as well
 as Delta, Gamma, Rho and Vega of the option. User also has the possibility to
 analyze how a given Greek changes if some market parameters change. Implementation of **OptionCalculator** mainly relies on **class BSworld**, which is realized using **S3 object system**.
 The component **VSTOXX Analysis** deals with analysis of VSTOOX index and
